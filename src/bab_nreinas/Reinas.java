@@ -1,6 +1,8 @@
 package bab_nreinas;
 
 public class Reinas {
+	//QUEREMOS COLOCAR N REINAS EN UN TABLERO DE NxN PONDERADO POR PESO, DE TAL FORMA QUE OBTENGAMOS LA SOLUCIÓN CON EL MENOR VALOR POSIBLE.
+	
 	public static final int N = 15;
 	public static final int MENORVALOR = 1;
 	public static final int MAYORVALOR = 1000;
