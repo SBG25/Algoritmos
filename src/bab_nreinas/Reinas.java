@@ -110,15 +110,10 @@ public class Reinas {
 	public static int primeraSolucion(int[][] tablero) {
 		int cota = 0;
 		int fila = 0;
-		int columna = 0;
 		
 		for(int i=0; i<tablero.length; i++) {
-			cota += tablero[fila][columna];
-			
-			columna++;
+			cota += tablero[fila][i];
 			fila += 2;
-			
-			if(columna == tablero.length) break;
 			if(fila >= tablero.length) fila = 1;
 		}
 		
