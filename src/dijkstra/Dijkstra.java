@@ -1,91 +1,61 @@
 package dijkstra;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Dijkstra {
-
+	
 	private Dijkstra() {
 		
 	}
 	
-	public static<E> void resolver(Graph<E> grafo, E nodoPartida){
-		Map<E, VectorDistancias<E>> distancias = new HashMap<>();
-		Queue<VectorDistancias<E>> cola = new PriorityQueue<>(new VectorComparador<E>());
-		
-		VectorDistancias<E> vectorDistancias = new VectorDistancias<>(nodoPartida, 0, false);
-		cola.add(vectorDistancias);
-		distancias.put(nodoPartida, vectorDistancias);
+	public static int[] solve(Graph grafo, int nodoPartida) {
+		int[] resultado = new int[grafo.getNNodos()];
+		boolean[] visitados = new boolean[grafo.getNNodos()];
+		Queue<Nodo> cola = new PriorityQueue<>(new NodoComparador());
+		cola.add(new Nodo(nodoPartida, 0));
 		
 		while(!cola.isEmpty()) {
-			VectorDistancias<E> vd = cola.remove();
-			List<Edge<E>> adyacentes = grafo.getListaAdyacencia(vd.getNodo());
-			for(Edge<E> edge : adyacentes) {
-				E destino = edge.getDestino();
-				if(distancias.containsKey(destino)) {
-					VectorDistancias<E> vd2 = distancias.get(destino);
-					int nuevaDistancia = vd.getDistancia()+1;
-					if(!vd2.getVisitado() && nuevaDistancia < vd2.getDistancia()) {
-						vd2.setDistancia(nuevaDistancia);
-						cola.add(vd2);
-					}
-				}
-				else {
-					VectorDistancias<E> vd2 = new VectorDistancias<>(destino, vd.getDistancia()+1, false);
-					distancias.put(destino, vd2);
-					cola.add(vd2);
+			Nodo node = cola.remove();
+			System.out.println("COGEMOS NODO "+node.index+"   CON DIST "+node.distancia);
+			
+			List<Edge> adjList = grafo.getAdjacency(node.index);
+			for(Edge edge : adjList) {
+				if(!visitados[edge.getDestino()]) {
+					cola.add(new Nodo(edge.getDestino(), node.distancia+edge.getPeso()));
 				}
 			}
-			vd.setVisitado(true);
+			visitados[node.index] = true;
+			resultado[node.index] = node.distancia;
+			cola.removeIf(n -> n.index == node.index);
 		}
 		
-		distancias.forEach((k,v) -> System.out.println(k + " " + v.getDistancia()));		
+		
+		
+		return resultado;
 	}
 	
-	private static class VectorDistancias<E>{
-		E nodo;
+	private static class Nodo{
+		int index;
 		int distancia;
-		boolean visitado;
 		
-		public VectorDistancias(E nodo, int distancia, boolean visitado) {
-			this.nodo = nodo;
+		public Nodo(int nodo, int distancia) {
+			this.index = nodo;
 			this.distancia = distancia;
-			this.visitado = visitado;
-		}
-		
-		public E getNodo() {
-			return this.nodo;
-		}
-		
-		public int getDistancia() {
-			return this.distancia;
-		}
-		
-		public boolean getVisitado() {
-			return this.visitado;
-		}
-		
-		public void setDistancia(int n) {
-			this.distancia = n;
-		}
-		
-		public void setVisitado(boolean b) {
-			this.visitado = b;
 		}
 	}
 	
-	private static class VectorComparador<E> implements Comparator<VectorDistancias<E>>{
-
+	private static class NodoComparador implements Comparator<Nodo>{
 		@Override
-		public int compare(VectorDistancias<E> v1, VectorDistancias<E> v2) {
-			if(v1.getDistancia() > v2.getDistancia()) return 1;
-			if(v1.getDistancia() < v2.getDistancia()) return -1;
+		public int compare(Nodo n1, Nodo n2) {
+			if(n1.distancia > n2.distancia) return 1;
+			if(n1.distancia < n2.distancia) return -1;
 			else return 0;
 		}
 		
 	}
+	
+	
 }
