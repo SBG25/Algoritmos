@@ -12,28 +12,26 @@ public class Dijkstra {
 	}
 	
 	public static int[] solve(Graph grafo, int nodoPartida) {
+		int contador = 0;
 		int[] resultado = new int[grafo.getNNodos()];
 		boolean[] visitados = new boolean[grafo.getNNodos()];
 		Queue<Nodo> cola = new PriorityQueue<>(new NodoComparador());
 		cola.add(new Nodo(nodoPartida, 0));
 		
-		while(!cola.isEmpty()) {
+		while(!cola.isEmpty() && contador != grafo.getNNodos()) {
 			Nodo node = cola.remove();
-			System.out.println("COGEMOS NODO "+node.index+"   CON DIST "+node.distancia);
-			
-			List<Edge> adjList = grafo.getAdjacency(node.index);
-			for(Edge edge : adjList) {
-				if(!visitados[edge.getDestino()]) {
-					cola.add(new Nodo(edge.getDestino(), node.distancia+edge.getPeso()));
+			if(!visitados[node.index]) {
+				List<Edge> adjList = grafo.getAdjacency(node.index);
+				for(Edge edge : adjList) {
+					if(!visitados[edge.getDestino()]) {
+						cola.add(new Nodo(edge.getDestino(), node.distancia+edge.getPeso()));
+					}
 				}
+				visitados[node.index] = true;
+				resultado[node.index] = node.distancia;
+				contador++;
 			}
-			visitados[node.index] = true;
-			resultado[node.index] = node.distancia;
-			cola.removeIf(n -> n.index == node.index);
 		}
-		
-		
-		
 		return resultado;
 	}
 	
