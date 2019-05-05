@@ -25,60 +25,32 @@ public class Skills {
 			grafo.insertarArista(n1, n2, peso);
 		}
 
-		int resultado = resolver(grafo);
+		int resultado = resolver(grafo, 0);
 		System.out.println(resultado);
 		
 		scanner.close();
 
 	}
 
-	public static int resolver(Graph grafo) {
+	public static int resolver(Graph grafo, int nodoPartida) {
 		int pesoMaximo = 0;
-		int[] leader = new int[grafo.nNodos];
-		int[] ranking = new int[grafo.nNodos];
-		for(int i=0; i<grafo.nNodos; i++) {
-			leader[i] = i;
-			ranking[i] = i;
-		}
 		Queue<Edge> cola = new PriorityQueue<>(new EdgeComparator());
-		grafo.anadirHijos(cola, 0);
+		boolean[] visitados = new boolean[grafo.nNodos];
+		
+		grafo.anadirHijos(cola, nodoPartida);
+		visitados[nodoPartida] = true;
 
 		while (!cola.isEmpty()) {
 			Edge edge = cola.remove();
-			if(find(leader, edge.origen) != find(leader, edge.destino)) {
-				union(leader, ranking, edge.origen, edge.destino);
+			if(!visitados[edge.destino]) {
 				pesoMaximo += edge.peso;
 				grafo.anadirHijos(cola, edge.destino);
+				visitados[edge.destino] = true;
 			}
 		}
 
 		return pesoMaximo;
 	}
-
-	public static int find(int[] leader, int x) {
-	     if (leader[x] != x) {
-	          int setLeader = find(leader, leader[x]);
-	          leader[x] = setLeader;
-	     }
-	     return leader[x];
-	}
-	
-	public static void union(int[] leader, int[] ranking, int x, int y) {
-		int setLeaderX = find(leader, x);
-		int setLeaderY = find(leader, y);
-		
-		if (setLeaderX == setLeaderY) return;
-		
-		if (ranking[setLeaderX] == ranking[setLeaderY]) {
-			leader[setLeaderY] = setLeaderX;
-	        ranking[setLeaderX]++;
-		}
-		else {
-			if (ranking[setLeaderX] > ranking[setLeaderY]) leader[setLeaderY] = setLeaderX;
-	        else leader[setLeaderX] = setLeaderY;
-		}
-	}
-	
 
 	public static class Edge {
 		int origen;
