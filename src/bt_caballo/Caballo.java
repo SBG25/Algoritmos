@@ -18,10 +18,10 @@ public class Caballo {
 	public int[][] solve(int fila, int columna, String opcion) {
 		int[][] pasos = new int[filas][columnas];
 		boolean resultado = false;
-		if (opcion.equals("abierto")) {
+		if ("abierto".equals(opcion)) {
 			resultado = solveAux(fila, columna, 0, pasos);
 		}
-		if (opcion.equals("cerrado")) {
+		if ("cerrado".equals(opcion)) {
 			resultado = solveAux2(fila, columna, 0, pasos);
 		}
 		if (resultado)

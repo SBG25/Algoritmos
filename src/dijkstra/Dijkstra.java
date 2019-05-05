@@ -36,8 +36,8 @@ public class Dijkstra {
 	}
 	
 	private static class Nodo{
-		int index;
-		int distancia;
+		private int index;
+		private int distancia;
 		
 		public Nodo(int nodo, int distancia) {
 			this.index = nodo;

@@ -53,12 +53,10 @@ public class Skills {
 	}
 
 	public static class Edge {
-		int origen;
-		int destino;
-		int peso;
+		private int destino;
+		private int peso;
 
-		public Edge(int o, int d, int p) {
-			origen = o;
+		public Edge(int d, int p) {
 			destino = d;
 			peso = p;
 		}
@@ -78,8 +76,8 @@ public class Skills {
 	}
 
 	public static class Graph {
-		int nNodos;
-		HashMap<Integer, List<Edge>> listaAdyacencia;
+		private int nNodos;
+		private HashMap<Integer, List<Edge>> listaAdyacencia;
 
 		public Graph(int n) {
 			nNodos = n;
@@ -91,10 +89,10 @@ public class Skills {
 		}
 
 		public void insertarArista(int origen, int destino, int peso) {
-			Edge e1 = new Edge(origen, destino, peso);
+			Edge e1 = new Edge(destino, peso);
 			listaAdyacencia.get(origen).add(e1);
 
-			Edge e2 = new Edge(destino, origen, peso);
+			Edge e2 = new Edge(origen, peso);
 			listaAdyacencia.get(destino).add(e2);
 		}
 

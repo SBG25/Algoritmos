@@ -51,8 +51,8 @@ public class Actividades {
 	}
 	
 	public static class Actividad{
-		int inicio;
-		int fin;
+		private int inicio;
+		private int fin;
 		
 		public Actividad(int i, int f) {
 			inicio = i;

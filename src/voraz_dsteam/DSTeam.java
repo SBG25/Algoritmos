@@ -16,8 +16,8 @@ public class DSTeam {
 		String estilo = teclado.next();
 		double pesoEstilo = maxPeso;
 		
-		if(estilo.equals("ligero")) pesoEstilo = maxPeso * 0.5;
-		else if(estilo.equals("medio")) pesoEstilo = maxPeso * 0.75;
+		if("ligero".equals(estilo)) pesoEstilo = maxPeso * 0.5;
+		else if("medio".equals(estilo)) pesoEstilo = maxPeso * 0.75;
 				
 		Queue<Equipo> cola = new PriorityQueue<>(new ComparadorEquipoValor());
 		Queue<String> nombresEquipo = new PriorityQueue<>();
@@ -62,10 +62,10 @@ public class DSTeam {
 	}
 	
 	public static class Equipo{
-		String nombre;
-		double peso;
-		double defensa;
-		double valor;
+		private String nombre;
+		private double peso;
+		private double defensa;
+		private double valor;
 		
 		public Equipo(String n, double p, double d) {
 			nombre = n;

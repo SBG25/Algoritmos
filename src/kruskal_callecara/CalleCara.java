@@ -81,9 +81,9 @@ public class CalleCara {
 	
 
 	public static class Edge {
-		int origen;
-		int destino;
-		long peso;
+		private int origen;
+		private int destino;
+		private long peso;
 
 		public Edge(int o, int d, long p) {
 			origen = o;
