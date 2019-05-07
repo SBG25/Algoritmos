@@ -38,13 +38,15 @@ public class CalleCara {
 		int[] ranking = new int[nNodos];
 		for(int i=0; i<nNodos; i++) {
 			leader[i] = i;
-			ranking[i] = i;
 		}
 
-		while (!cola.isEmpty()) {
+		while (!cola.isEmpty() && nCaminos < nNodos) {
 			Edge edge = cola.remove();
-			if(find(leader, edge.origen) != find(leader, edge.destino)) {
-				union(leader, ranking, edge.origen, edge.destino);
+			int oLeader = find(leader, edge.origen);
+			int dLeader = find(leader, edge.destino);
+			
+			if(oLeader != dLeader) {
+				union(leader, ranking, oLeader, dLeader);
 				pesoMaximo += edge.peso;
 				nCaminos += 1;
 			}
@@ -57,17 +59,12 @@ public class CalleCara {
 
 	public static int find(int[] leader, int x) {
 	     if (leader[x] != x) {
-	          int setLeader = find(leader, leader[x]);
-	          leader[x] = setLeader;
+	          return find(leader, leader[x]);
 	     }
 	     return leader[x];
 	}
 	
-	public static void union(int[] leader, int[] ranking, int x, int y) {
-		int setLeaderX = find(leader, x);
-		int setLeaderY = find(leader, y);
-		
-		if (setLeaderX == setLeaderY) return;
+	public static void union(int[] leader, int[] ranking, int setLeaderX, int setLeaderY) {
 		
 		if (ranking[setLeaderX] == ranking[setLeaderY]) {
 			leader[setLeaderY] = setLeaderX;
