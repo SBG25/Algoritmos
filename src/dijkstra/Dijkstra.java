@@ -11,49 +11,43 @@ public class Dijkstra {
 		
 	}
 	
-	public static int[] solve(Graph grafo, int nodoPartida) {
-		int contador = 0;
-		int[] resultado = new int[grafo.getNNodos()];
+	public static long[] solve(Graph grafo, int nodoPartida) {
+		long[] resultado = new long[grafo.getNNodos()];
 		boolean[] visitados = new boolean[grafo.getNNodos()];
-		Queue<Nodo> cola = new PriorityQueue<>(new NodoComparador());
-		cola.add(new Nodo(nodoPartida, 0));
+		Queue<Dupla> cola = new PriorityQueue<>();
+		cola.add(new Dupla(nodoPartida, 0));
+		int contador = 0;
 		
 		while(!cola.isEmpty() && contador != grafo.getNNodos()) {
-			Nodo node = cola.remove();
-			if(!visitados[node.index]) {
-				List<Edge> adjList = grafo.getAdjacency(node.index);
-				for(Edge edge : adjList) {
-					if(!visitados[edge.getDestino()]) {
-						cola.add(new Nodo(edge.getDestino(), node.distancia+edge.getPeso()));
-					}
-				}
-				visitados[node.index] = true;
-				resultado[node.index] = node.distancia;
-				contador++;
+			Dupla dup = cola.remove();
+			visitados[dup.nodo] = true;
+			resultado[dup.nodo] = dup.distancia;
+			contador++;
+			List<Edge> adjList = grafo.getAdjList(dup.nodo);
+			for(Edge e : adjList) {
+				if(!visitados[e.getDestino()]) cola.add(new Dupla(e.getDestino(), dup.distancia + e.getPeso()));
 			}
 		}
+		
 		return resultado;
 	}
 	
-	private static class Nodo{
-		private int index;
-		private int distancia;
+	private static class Dupla{
+		int nodo;
+		long distancia;
 		
-		public Nodo(int nodo, int distancia) {
-			this.index = nodo;
-			this.distancia = distancia;
+		public Dupla(int n, long d) {
+			nodo = n;
+			distancia = d;
 		}
 	}
 	
-	private static class NodoComparador implements Comparator<Nodo>{
+	public static class DuplaComparator implements Comparator<Dupla>{
 		@Override
-		public int compare(Nodo n1, Nodo n2) {
-			if(n1.distancia > n2.distancia) return 1;
-			if(n1.distancia < n2.distancia) return -1;
+		public int compare(Dupla e1, Dupla e2) {
+			if(e1.distancia > e2.distancia) return 1;
+			if(e1.distancia < e2.distancia) return -1;
 			else return 0;
 		}
-		
 	}
-	
-	
 }

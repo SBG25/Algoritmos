@@ -1,9 +1,11 @@
 package dijkstra;
 
+import java.util.Comparator;
+
 public class Edge {
 	private int origen;
 	private int destino;
-	private int peso;
+	private long peso;
 	
 	public Edge(int o, int d, int p) {
 		origen = o;
@@ -11,15 +13,24 @@ public class Edge {
 		peso = p;
 	}
 	
-	public int getOrigen() {
-		return origen;
-	}
-	
 	public int getDestino() {
 		return destino;
 	}
 	
-	public int getPeso() {
+	public long getPeso() {
 		return peso;
+	}
+	
+	public int getOrigen() {
+		return origen;
+	}
+	
+	public static class EdgeComparator implements Comparator<Edge>{
+		@Override
+		public int compare(Edge e1, Edge e2) {
+			if(e1.getPeso() > e2.getPeso()) return 1;
+			if(e1.getPeso() < e2.getPeso()) return -1;
+			else return 0;
+		}
 	}
 }

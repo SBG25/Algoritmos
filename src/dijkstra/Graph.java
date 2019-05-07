@@ -7,13 +7,14 @@ import java.util.Map;
 
 public class Graph {
 	private int nNodos;
-	private Map<Integer, List<Edge>> adjacencyList;
+	private Map<Integer, List<Edge>> adjList;
 	
-	public Graph(int nNodos) {
-		this.nNodos = 0;
-		adjacencyList = new HashMap<>();
-		for(int i=0; i < nNodos; i++) {
-			addNode();
+	public Graph(int n) {
+		nNodos = n;
+		adjList = new HashMap<>();
+		for(int key=0; key<n; key++) {
+			List<Edge> list = new LinkedList<>();
+			adjList.put(key, list);
 		}
 	}
 	
@@ -21,27 +22,12 @@ public class Graph {
 		return nNodos;
 	}
 	
-	public void addNode() {
-		adjacencyList.put(nNodos, new LinkedList<>());
-		this.nNodos += 1;
+	public List<Edge> getAdjList(int key){
+		return adjList.get(key);
 	}
 	
-	public void addEdge(int origen, int destino, int peso) {
-		Edge edge = new Edge(origen, destino, peso);
-		adjacencyList.get(origen).add(edge);
+	public void insertarArista(int origen, int destino, int peso) {
+		Edge e = new Edge(origen, destino, peso);
+		adjList.get(origen).add(e);
 	}
-	
-	public List<Edge> getAdjacency(int index){
-		return adjacencyList.get(index);
-	}
-	
-	public boolean areAdjacents(int origen, int destino) {
-		List<Edge> adjL = getAdjacency(origen);
-		for(Edge e : adjL) {
-			if(e.getDestino() == destino) return true;
-		}
-		return false;
-	}
-	
-	
 }

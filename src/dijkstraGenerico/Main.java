@@ -1,4 +1,4 @@
-package dijkstra;
+package dijkstraGenerico;
 
 import java.util.Scanner;
 
@@ -16,12 +16,12 @@ public class Main {
 			int destino = scanner.nextInt();
 			int peso = scanner.nextInt();
 			
-			grafo.insertarArista(origen, destino, peso);
-			grafo.insertarArista(destino, origen, peso);
+			grafo.addEdge(origen, destino, peso);
+			grafo.addEdge(destino, origen, peso);
 		}
 		
 		int nodoPartida = scanner.nextInt();
-		long[] vectorDistancias = Dijkstra.solve(grafo, nodoPartida);
+		int[] vectorDistancias = Dijkstra.solve(grafo, nodoPartida);
 		for(int i=0; i<nNodos; i++) {
 			System.out.println(i + " -> " + vectorDistancias[i]);
 		}
