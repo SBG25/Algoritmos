@@ -1,36 +1,33 @@
 package dijkstra;
 
-import java.util.Random;
-
-import executiontime.ExecutionTime;
+import java.util.Scanner;
 
 public class Main {
-	public static final int N = 1000000;
-	public static final int ARISTAS = 2000000;
-	public static final int PESOMAX = 2000000;
 
 	public static void main(String[] args) {
-		Random random = new Random();
+		Scanner scanner = new Scanner(System.in);
 		
-		Graph grafo = new Graph(N);
+		int nNodos = scanner.nextInt();
+		Graph grafo = new Graph(nNodos);
 		
-		for(int i=0; i<ARISTAS; i++) {
-			int origen = random.nextInt(N);
-			int destino = random.nextInt(N);
-			int peso = random.nextInt(PESOMAX);
+		int nCaminos = scanner.nextInt();
+		for(int i=0; i<nCaminos; i++) {
+			int origen = scanner.nextInt()-1;
+			int destino = scanner.nextInt()-1;
+			int peso = scanner.nextInt();
 			
-			grafo.insertarArista(origen, destino, peso);
-			grafo.insertarArista(destino, origen, peso);
+			grafo.addEdge(origen, destino, peso);
+			grafo.addEdge(destino, origen, peso);
 		}
 		
-		int nodoPartida = random.nextInt(N);
+		int nodoPartida = scanner.nextInt();
+		int[] vectorDistancias = Dijkstra.solve(grafo, nodoPartida);
+		for(int i=0; i<nNodos; i++) {
+			System.out.println(i + " -> " + vectorDistancias[i]);
+		}
 		
-		ExecutionTime.startTime();
-		long[] vectorDistancias = Dijkstra.solve(grafo, nodoPartida);
-		ExecutionTime.endTime();
-		//for(int i=0; i<N; i++) {
-			//System.out.println(i + " -> " + vectorDistancias[i]);
-		//}
+		scanner.close();
+
 	}
 
 }
