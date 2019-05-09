@@ -13,6 +13,6 @@ public class ExecutionTime {
 	
 	public static void endTime() {
 		long endTime = System.nanoTime();
-		System.out.println((endTime - startTime)/1000000);
+		System.out.println((endTime - startTime)/1000000 + " ms");
 	}
 }

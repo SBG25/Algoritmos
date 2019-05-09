@@ -12,8 +12,8 @@ public class Main {
 		
 		int nCaminos = scanner.nextInt();
 		for(int i=0; i<nCaminos; i++) {
-			int origen = scanner.nextInt();
-			int destino = scanner.nextInt();
+			int origen = scanner.nextInt()-1;
+			int destino = scanner.nextInt()-1;
 			int peso = scanner.nextInt();
 			
 			grafo.addEdge(origen, destino, peso);

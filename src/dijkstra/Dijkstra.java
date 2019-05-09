@@ -20,12 +20,14 @@ public class Dijkstra {
 		
 		while(!cola.isEmpty() && contador != grafo.getNNodos()) {
 			Dupla dup = cola.remove();
-			visitados[dup.nodo] = true;
-			resultado[dup.nodo] = dup.distancia;
-			contador++;
-			List<Edge> adjList = grafo.getAdjList(dup.nodo);
-			for(Edge e : adjList) {
-				if(!visitados[e.getDestino()]) cola.add(new Dupla(e.getDestino(), dup.distancia + e.getPeso()));
+			if(!visitados[dup.nodo]) {
+				visitados[dup.nodo] = true;
+				resultado[dup.nodo] = dup.distancia;
+				contador++;
+				List<Edge> adjList = grafo.getAdjList(dup.nodo);
+				for(Edge e : adjList) {
+					if(!visitados[e.getDestino()]) cola.add(new Dupla(e.getDestino(), dup.distancia + e.getPeso()));
+				}
 			}
 		}
 		
