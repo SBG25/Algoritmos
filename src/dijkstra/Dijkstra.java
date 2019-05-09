@@ -14,7 +14,7 @@ public class Dijkstra {
 	public static long[] solve(Graph grafo, int nodoPartida) {
 		long[] resultado = new long[grafo.getNNodos()];
 		boolean[] visitados = new boolean[grafo.getNNodos()];
-		Queue<Dupla> cola = new PriorityQueue<>();
+		Queue<Dupla> cola = new PriorityQueue<>(new DuplaComparator());
 		cola.add(new Dupla(nodoPartida, 0));
 		int contador = 0;
 		
